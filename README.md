@@ -1,3 +1,4 @@
 # Planum Polare Project #
 
-GE
+Built with Express.js
+Imported from Bitbucket.
