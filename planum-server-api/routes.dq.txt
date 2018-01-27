@@ -1,0 +1,169 @@
+###########################
+#  PLANUM PUBLIC API 0.1  #
+###########################
+
+----------------------------------------------------------------------------------------
+
+GET /api/game : Devuelve el juego del jugador logeado.
+
+  { "_id": "53c6767ebb0228b0f87d8c76",
+  "name": "Indie/Rock",
+  "active": true,
+  "activeRound": "http://localhost:1337/api/round/53c6767ebb0228b0f87d8c7d",
+  "rounds": [ "http://localhost:1337/api/round/53c6767ebb0228b0f87d8c7d" ],
+  "players":
+   [ "http://localhost:1337/api/player/53c6767ebb0228b0f87d8c77",
+     "http://localhost:1337/api/player/53c6767ebb0228b0f87d8c78",
+     "http://localhost:1337/api/player/53c6767ebb0228b0f87d8c79",
+     "http://localhost:1337/api/player/53c6767ebb0228b0f87d8c7a" ] }
+
+----------------------------------------------------------------------------------------
+
+GET /api/me : Informacion del jugador logeado.
+
+{ "_id": "53c6767ebb0228b0f87d8c77",
+  "name": "jorge",
+  "thumbLink": "http://localhost:1337/api/images/players/profile.png",
+  "activeGame": "http://localhost:1337/api/game",
+  "oauthuser": "53c6767ebb0228b0f87d8c77" }
+
+----------------------------------------------------------------------------------------
+
+GET /api/players/:id : Informacion de un jugador concreto.
+
+{ "_id": "53c6767ebb0228b0f87d8c77",
+  "name": "jorge",
+  "thumbLink": "http://localhost:1337/api/images/players/profile.png",
+  "activeGame": "http://localhost:1337/api/game",
+  "oauthuser": "53c6767ebb0228b0f87d8c77" }
+
+----------------------------------------------------------------------------------------
+
+GET /api/rounds/:id || api/round/:id/publications : Información de las publicaciones de una ronda.
+
+[ { "_id": "53c6767ebb0228b0f87d8c7b",
+    "round": "http://localhost:1337/api/round/53c6767ebb0228b0f87d8c7d",
+    "song":
+     { "_id": "53c6767ebb0228b0f87d8c86",
+       "artist": "Tesseract",
+       "name": "Nocturne",
+       "youtubeURL": "https://www.youtube.com/watch?v=get0cXOsSXg" },
+    "date": "1923-06-22T22:00:00.000Z" },
+  { "_id": "53c6767ebb0228b0f87d8c7c",
+    "round": "http://localhost:1337/api/round/53c6767ebb0228b0f87d8c7d",
+    "song":
+     { "_id": "53c6767ebb0228b0f87d8c87",
+       "artist": "Keane",
+       "name": "Somewhere Only We Know",
+       "youtubeURL": "https://www.youtube.com/watch?v=Oextk-If8HQ" },
+    "date": "1922-01-11T23:00:00.000Z" } ]
+
+----------------------------------------------------------------------------------------
+
+GET /api/publications/:id
+
+{ "_id": "53c67bc4d09a5a9ca6c1217c",
+  "round": "53c67bc4d09a5a9ca6c1217e",
+  "song":
+   { "_id": "53c67bc4d09a5a9ca6c12187",
+     "artist": "Tesseract",
+     "name": "Nocturne",
+     "youtubeURL": "https://www.youtube.com/watch?v=get0cXOsSXg" },
+  "date": "1923-06-22T22:00:00.000Z",
+  "voted": true,
+  "votedTags":
+   [ { "_id": "53c67bc4d09a5a9ca6c1217f",
+       "name": "Rock!",
+       "imgLink": "",
+       "active": true,
+       "value": 5 },
+     { "_id": "53c67bc4d09a5a9ca6c12180",
+       "name": "Sad song",
+       "imgLink": "",
+       "active": true,
+       "value": 3 } ] }
+
+----------------------------------------------------------------------------------------
+
+GET /api/publications/:id/votes
+
+[ { "_id": "53c67adf5a69a7d40020874f",
+    "comment": "this is a comment!",
+    "player": "http://localhost:1337/api/player/53c67adf5a69a7d400208744",
+    "publication": "http://localhost:1337/api/publication/53c67adf5a69a7d400208748",
+    "tags": [ "53c67adf5a69a7d40020874b", "53c67adf5a69a7d40020874c" ] } ]
+
+----------------------------------------------------------------------------------------
+
+GET /api/publications/:id/comments
+
+[ { "_id": "53c67adf5a69a7d40020874f",
+    "comment": "Hue comment",
+    "player": "http://localhost:1337/api/player/53c67adf5a69a7d400208744",
+    "publication": "http://localhost:1337/api/publication/53c67adf5a69a7d400208748" } ]
+
+----------------------------------------------------------------------------------------
+
+GET /api/tags?active=true|false
+
+[ { "_id": "53c67b56c64b16325167ceac",
+    "name": "Rock!",
+    "imgLink": "",
+    "active": true,
+    "value": 5 },
+  { "_id": "53c67b56c64b16325167cead",
+    "name": "Sad song",
+    "imgLink": "",
+    "active": true,
+    "value": 3 },
+  { "_id": "53c67b56c64b16325167ceae",
+    "name": "Gol de señor",
+    "imgLink": "",
+    "active": true,
+    "value": 4 },
+  { "_id": "53c67b56c64b16325167ceaf",
+    "name": "DAT BASS",
+    "imgLink": "",
+    "active": true,
+    "value": 2 } ]
+
+----------------------------------------------------------------------------------------
+
+GET /api/songs?artist=Tesseract&name=Nocturne
+
+[ { "_id": "53c67bc4d09a5a9ca6c12189",
+    "artist": "Chamillionaire",
+    "name": "Ridin\" Dirty With Lyrics",
+    "youtubeURL": "https://www.youtube.com/watch?v=9nf4DhXy9oU" } ]
+
+----------------------------------------------------------------------------------------
+
+GET /api/queue?populate=true|false
+
+[ { "_id": "53c67c638a72933ca2f518ca",
+    "artist": "Tesseract",
+    "name": "Nocturne",
+    "youtubeURL": "https://www.youtube.com/watch?v=get0cXOsSXg" },
+  { "_id": "53c67c638a72933ca2f518cb",
+    "artist": "Keane",
+    "name": "Somewhere Only We Know",
+    "youtubeURL": "https://www.youtube.com/watch?v=Oextk-If8HQ" } ]
+
+----------------------------------------------------------------------------------------
+
+POST /api/queue : Pushes a song to the queue.
+
+----------------------------------------------------------------------------------------
+
+PUT /api/votes : Put a new vote tu publication .
+
+var voteJSON = { "comment": "This is a comment hue", "publication": publicationId, "tags": tags };
+
+----------------------------------------------------------------------------------------
+
+PUT /api/comments : Put a new comment to publication.
+
+var commentJson = { "comment": "This is a comment hue", "publication": publicationId };
+
+----------------------------------------------------------------------------------------
+

@@ -1,0 +1,15 @@
+- Cambiar los archivos js que se puedan por sus versiones en servidores rapidos.
+- Revisar publicacion de comentarios (textarea accedido raro)
+- Como añadido al punto anterior, guardar en modelos los contenidos de todas las cajas de texto, para que se mantenga guardado entre vistas.
+- Refrescar token
+- Editar comentarios?
+- Añadir busqueda por AJAX
+- Hacer preview de videos a publicar
+- Funcionamiento en general revisando las request a la api
+- Etiquetas con eventos touch (angular)
+
+
+BUGS
+
+-Revisar votar sin etiquetas. (Apañado, pero falta validacion bien hecha)
+-Añadir dos veces la misma canción a la cola.

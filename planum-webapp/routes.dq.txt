@@ -1,0 +1,274 @@
+###########################
+#  PLANUM PUBLIC API 0.1  #
+###########################
+
+% Recent changes %
+-> POST /api/chooseGame: { game: gameId, player: playerId }.
+-> POST /api/players: Para registrar jugadores. Se envían todos los datos del jugador.
+-> POST /api/game: Crear un juego: { name: name }.
+
+----------------------------------------------------------------------------------------
+
+GET /api/game : Devuelve el juego del jugador logeado.
+
+  { "_id": "53c6767ebb0228b0f87d8c76",
+  "name": "Indie/Rock",
+  "active": true,
+  "activeRound": "http://localhost:1337/api/round/53c6767ebb0228b0f87d8c7d",
+  "rounds": [ "http://localhost:1337/api/round/53c6767ebb0228b0f87d8c7d" ],
+  "players":
+   [ "http://localhost:1337/api/player/53c6767ebb0228b0f87d8c77",
+     "http://localhost:1337/api/player/53c6767ebb0228b0f87d8c78",
+     "http://localhost:1337/api/player/53c6767ebb0228b0f87d8c79",
+     "http://localhost:1337/api/player/53c6767ebb0228b0f87d8c7a" ] }
+
+----------------------------------------------------------------------------------------
+
+GET /api/me : Informacion del jugador logeado.
+
+{ "_id": "53c6767ebb0228b0f87d8c77",
+  "name": "jorge",
+  "thumbLink": "http://localhost:1337/api/images/players/profile.png",
+  "activeGame": "http://localhost:1337/api/game",
+  "oauthuser": "53c6767ebb0228b0f87d8c77" }
+
+----------------------------------------------------------------------------------------
+
+GET /api/players : Informacion de los jugadores del juego en curso
+
+[{ "_id": "53c6767ebb0228b0f87d8c77",
+  "name": "jorge",
+  "thumbLink": "http://localhost:1337/api/images/players/profile.png",
+  "activeGame": "http://localhost:1337/api/game",
+  "oauthuser": "53c6767ebb0228b0f87d8c77" },
+  { "_id": "53c6767ebb0228b0f87d8c77",
+  "name": "jorge",
+  "thumbLink": "http://localhost:1337/api/images/players/profile.png",
+  "activeGame": "http://localhost:1337/api/game",
+  "oauthuser": "53c6767ebb0228b0f87d8c77" }
+  ]
+
+----------------------------------------------------------------------------------------
+
+GET /api/songs/youtube?artist=&song= :
+
+[ { youtubeId: 'MfOnq-zXXBw', title: 'Periphery - Icarus Lives!' },
+  { youtubeId: 'ScLf2HixuUg', title: 'Periphery - Icarus Lives' },
+  { youtubeId: '5CugnVOTPAM', title: 'Periphery - Icarus Lives' },
+  { youtubeId: 'jVfjqnmueW0',
+    title: 'Periphery - Icarus Lives! Live in Toronto PRO HD' },
+  { youtubeId: 'RwpBPuzogJQ', title: 'Periphery - Icarus Lives!' } ]
+
+----------------------------------------------------------------------------------------
+
+GET /api/search/artist?artist= : Busqueda en freebase (de momento).
+
+[ { name: 'Rage Against the Machine',
+    id: '/en/rage_against_the_machine',
+    labels: [ 'Revelation Records', 'Epic Records' ],
+    genres:
+     [ 'Rapcore',
+       'Alternative rock',
+       'Funk rock',
+       'Alternative metal',
+       'Heavy metal',
+       'Hard rock',
+       'Funk metal',
+       'Rap metal',
+       'Political hip hop',
+       'Crossover thrash',
+       'Nu metal',
+       'Rock music' ],
+    image: [ { id: '/wikipedia/images/commons_id/386087' },
+  { id: '/wikipedia/images/commons_id/3560134' } ] } ]
+
+----------------------------------------------------------------------------------------
+
+GET /api/search/song?artistId=&song= :
+
+[ { id: '/m/0ldhwq', name: 'Fistful of Steel', length: 331.106 },
+  { id: '/dataworld/freeq/job_26d47059-75d5-48f5-a597-387fd263cc99_var_mb_ngs$003Arecording_recording_gid_2c8d234f-4109-4e93-a98b-e1fa1053e31d',
+    name: 'White America vs. Fistful of Steel',
+    length: 299 } ]
+
+
+----------------------------------------------------------------------------------------
+
+GET /api/players/:id : Informacion de un jugador concreto.
+
+{ "_id": "53c6767ebb0228b0f87d8c77",
+  "name": "jorge",
+  "thumbLink": "http://localhost:1337/api/images/players/profile.png",
+  "activeGame": "http://localhost:1337/api/game",
+  "oauthuser": "53c6767ebb0228b0f87d8c77" }
+
+----------------------------------------------------------------------------------------
+
+GET /api/rounds/:id || api/round/:id/publications : Información de las publicaciones de una ronda.
+
+[ { "_id": "53c6767ebb0228b0f87d8c7b",
+    "round": "http://localhost:1337/api/round/53c6767ebb0228b0f87d8c7d",
+    "song":
+     { "_id": "53c6767ebb0228b0f87d8c86",
+       "artist": "Tesseract",
+       "name": "Nocturne",
+       "youtubeId": "get0cXOsSXg" },
+    "date": "1923-06-22T22:00:00.000Z" },
+  { "_id": "53c6767ebb0228b0f87d8c7c",
+    "round": "http://localhost:1337/api/round/53c6767ebb0228b0f87d8c7d",
+    "song":
+     { "_id": "53c6767ebb0228b0f87d8c87",
+       "artist": "Keane",
+       "name": "Somewhere Only We Know",
+       "youtubeId": "Oextk-If8HQ" },
+    "date": "1922-01-11T23:00:00.000Z" } ]
+
+----------------------------------------------------------------------------------------
+
+GET /api/publications/:id : Publicacion votada
+
+{ "_id": "53c67bc4d09a5a9ca6c1217c",
+  "round": "53c67bc4d09a5a9ca6c1217e",
+  "song":
+   { "_id": "53c67bc4d09a5a9ca6c12187",
+     "artist": "Tesseract",
+     "name": "Nocturne",
+     "youtubeId": "get0cXOsSXg" },
+  "date": "1923-06-22T22:00:00.000Z",
+  "voted": true,
+  "votedTags":
+   [ { "_id": "53c67bc4d09a5a9ca6c1217f",
+       "name": "Rock!",
+       "imgLink": "",
+       "active": true,
+       "value": 5 },
+     { "_id": "53c67bc4d09a5a9ca6c12180",
+       "name": "Sad song",
+       "imgLink": "",
+       "active": true,
+       "value": 3 } ] }
+
+----------------------------------------------------------------------------------------
+
+GET /api/publications/:id : Publicacion sin votar
+
+{ "_id": "53c67bc4d09a5a9ca6c1217c",
+  "round": "53c67bc4d09a5a9ca6c1217e",
+  "song":
+   { "_id": "53c67bc4d09a5a9ca6c12187",
+     "artist": "Tesseract",
+     "name": "Nocturne",
+     "youtubeId": "get0cXOsSXg" },
+  "date": "1923-06-22T22:00:00.000Z",
+  "voted": false }
+
+----------------------------------------------------------------------------------------
+
+GET /api/publications/:id/votes
+
+[ { "_id": "53c67adf5a69a7d40020874f",
+    "comment": "this is a comment!",
+    "player": "http://localhost:1337/api/player/53c67adf5a69a7d400208744",
+    "publication": "http://localhost:1337/api/publication/53c67adf5a69a7d400208748",
+    "date": "1923-06-22T22:00:00.000Z",
+    "tags": [ "53c67adf5a69a7d40020874b", "53c67adf5a69a7d40020874c" ] } ]
+
+----------------------------------------------------------------------------------------
+
+GET /api/publications/:id/comments
+
+[ { "_id": "53c67adf5a69a7d40020874f",
+    "comment": "Hue comment",
+    "player": "http://localhost:1337/api/player/53c67adf5a69a7d400208744",
+    "publication": "http://localhost:1337/api/publication/53c67adf5a69a7d400208748",
+    "date": "1923-06-22T22:00:00.000Z"} ]
+
+----------------------------------------------------------------------------------------
+
+GET /api/tags?active=true|false
+
+[ { "_id": "53c67b56c64b16325167ceac",
+    "name": "Rock!",
+    "imgLink": "",
+    "active": true,
+    "value": 5 },
+  { "_id": "53c67b56c64b16325167cead",
+    "name": "Sad song",
+    "imgLink": "",
+    "active": true,
+    "value": 3 },
+  { "_id": "53c67b56c64b16325167ceae",
+    "name": "Gol de señor",
+    "imgLink": "",
+    "active": true,
+    "value": 4 },
+  { "_id": "53c67b56c64b16325167ceaf",
+    "name": "DAT BASS",
+    "imgLink": "",
+    "active": true,
+    "value": 2 } ]
+
+----------------------------------------------------------------------------------------
+
+GET /api/songs?artist=Tesseract&name=Nocturne
+
+Devuelve el siguiente json si la cancion se encentra en el sistema.
+[ { "_id": "53c67bc4d09a5a9ca6c12189",
+    "artist": "Chamillionaire",
+    "name": "Ridin\" Dirty With Lyrics",
+    "youtubeId": "9nf4DhXy9oU" } ]
+
+----------------------------------------------------------------------------------------
+
+GET /api/songs/youtube?artist=Tesseract&name=Nocturne
+
+Busca canciones en YOUTUBE.
+[ { "_id": "53c67bc4d09a5a9ca6c12189",
+    "title": "Chamillionaire - Ridin\" Dirty With Lyrics",
+    "youtubeId": "9nf4DhXy9oU" } ]
+
+----------------------------------------------------------------------------------------
+
+GET /api/queue?populate=true|false
+
+[ { "_id": "53c67c638a72933ca2f518ca",
+    "artist": "Tesseract",
+    "name": "Nocturne",
+    "youtubeId": "get0cXOsSXg" },
+  { "_id": "53c67c638a72933ca2f518cb",
+    "artist": "Keane",
+    "name": "Somewhere Only We Know",
+    "youtubeId": "Oextk-If8HQ" } ]
+
+----------------------------------------------------------------------------------------
+
+DELETE /api/queue/:id Borra una cancion de la cola de canciones por id
+                      devuelve la lista borrada.
+
+[ { "_id": "53c67c638a72933ca2f518ca",
+    "artist": "Tesseract",
+    "name": "Nocturne",
+    "youtubeId": "get0cXOsSXg" },
+  { "_id": "53c67c638a72933ca2f518cb",
+    "artist": "Keane",
+    "name": "Somewhere Only We Know",
+    "youtubeId": "Oextk-If8HQ" } ]
+
+----------------------------------------------------------------------------------------
+
+POST /api/queue : Pushes a song to the queue.
+
+----------------------------------------------------------------------------------------
+
+PUT /api/votes : Put a new vote tu publication .
+
+var voteJSON = { "comment": "This is a comment hue", "publication": publicationId, "tags": tags };
+
+----------------------------------------------------------------------------------------
+
+POST /api/comments : Put a new comment to publication.
+
+var commentJson = { "comment": "This is a comment hue", "publication": publicationId };
+
+----------------------------------------------------------------------------------------
+

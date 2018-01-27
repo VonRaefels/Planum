@@ -1,0 +1,130 @@
+/* app css stylesheet */
+
+body{
+  background-color: #D3DBE3;
+  font-family: 'Source Sans Pro', sans-serif;
+  padding-top: 60px;
+}
+
+
+@media (max-width: 979px) {
+  body {
+    padding-top: 60px;
+    padding-bottom: 42px;
+  }
+}
+
+.publication {
+  margin: 5px 0 5px 0px;
+  padding: 5px;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.publication img{
+  max-width:140px;
+}
+
+.publication a{
+    color: #FFFFFF;
+    text-decoration: none;
+}
+
+.bin {
+  max-width: 350px;
+  min-height: 80px;
+}
+
+.navbar-nav.navbar-right:last-child {
+ margin-right: 0px; 
+}
+
+.voted_item {
+  border: 1px solid black;
+  width: 100px;
+  font-style: italic;
+  -webkit-user-select: none;   
+  -moz-user-select: none;
+  -ms-user-select: none;
+}
+
+.small-thumbnail{
+  height: 25px;
+  max-height: 25px;
+  width: 25px;
+  max-width: 25px;
+}
+
+.tags {
+  float: right;
+}
+
+.tag {
+  margin-left: 1px;
+  margin-top: 1px;
+}
+
+.players{
+  width: 15%;
+  position:fixed;
+}
+
+.send-button{
+  margin: 5px 0 5px 0;
+}
+
+.error-image{
+  height: 300px;
+  width: 300px;
+}
+
+.thumbnail-artist-search{
+  height: 80px;
+  width: 80px;
+  margin-right: 10px;
+}
+
+.youtube-thumbnail-queue{
+  height: 40px;
+  margin-right: 10px;
+}
+
+.player-queue li > span {
+  font-size: 17px;
+}
+
+.result {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.result a{
+  color: inherit;
+  text-decoration: none;
+}
+
+.list-group-item a{
+  color: inherit;
+  text-decoration: none;
+}
+
+* {
+  -webkit-border-radius: 0 !important;
+  -moz-border-radius: 0 !important;
+  border-radius: 0 !important;
+  border: none !important;
+}
+
+.form-control{
+  -webkit-box-shadow: inset 0px 0px 5px 0px rgba(89, 89, 89, 0.75) !important; 
+  -moz-box-shadow:    inset 0px 0px 5px 0px rgba(89, 89, 89, 0.75) !important;
+  box-shadow:         inset 0px 0px 5px 0px rgba(89, 89, 89, 0.75) !important;
+}

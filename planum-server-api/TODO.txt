@@ -1,0 +1,60 @@
+-> Validación de votos y commentarios.
+-> Ranking, sistema de puntuación?
+-> Borrado de comentarios.
+-> Evitar que un jugador pueda obtener datos de otros juegos...
+-> Registro de usuarios con twitter o facebook? --- Importante ---
+-> password hashing.
+-> Duplicacion de name y username...
+-> Conexión con last.fm o spotify...
+-> Verificar los ids de freebase en la subida de canciones.
+-> Sesion del usuario en la cola de canciones al ir seleccionando artista etc...
+-> Refactor la api de autenticacion para que vaya por delete y el proxy de nginx.
+-> Error error views...
+
+--- ADMIN ---
+-> admin.html gigante, sacar las plantillas.
+-> Bug en serializar games.... !!!!!!!!!
+
+--- Amazon ---
+-> Tipos de disco SSD EBS vs el otro.
+-> Guardar datos de mongo fuera del volumen raíz.
+
+--- Usuarios ---
+-> Csfr token...
+-> Captcha...
+
+--- IMPORTANTE ---
+-> Poner con post las busquedas a search.
+-> Validar todos los campos que escriban.
+<<<<<<< HEAD
+-> Punto de entrada para el registro de usuarios.
+-> Punto de entrada para invitar a un jugador a un juego.
+-> Punto de entrada para salir del juego en curso.
+<<<<<<< HEAD
+-> replicacion con mongoose...
+=======
+-> BUG administradores en el login del juego (oauth.js).
+-> failover en el proxy de nginx.
+=======
+>>>>>>> 1db45122a384261df10f800994a10af07df0b08a
+-> Cambiar a post /search...
+
+>>>>>>> fd16f07e674ef868808b7637bc6d28a5f050a9fc
+
+
+--- Pasos para la subida ---
+0. Crear copia de mockdata.js para la prueba.
+1. Subir las apis y oauth (npm install por si acaso en todas partes).
+2. Checkear scripts de arrance que tengan la última version con forever.
+3. Modificar planum.music nginx para que tenga las rutas correctas.
+4. Checkear planum.oauth.com
+5. Revisar /etc/hosts.
+6. Modificar el fichero oauth.planum.com para que el proxy sea oauth. (Revisar security groups,R eliniciar y probar).
+7. Subir las fotos de usuarios.
+8. Ejecutar mockdata2.js para las pruebas.
+9. Subir la aplicacion de administracion con el Oauth.js cambiado a planum.music.
+10. Reiniciar y probar.
+11. Subir la aplicacion principal y cuidado con el bower_modules.
+12. Reiniciar y probar.
+13. Instalar ruby y extensiones.
+14. Probar el script de cambio de dia.

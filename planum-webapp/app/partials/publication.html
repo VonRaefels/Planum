@@ -1,0 +1,63 @@
+<div class="container">
+	<div class="row">
+		<div class="col-md-2"></div>
+		<div class="col-md-8">
+			<div class="panel panel-default">
+				<div class="panel-body">
+					<iframe width="320" height="240" ng-src="{{trusted_url}}" frameborder="0" allowfullscreen></iframe>
+					<h3>{{publication.song.artist}} - {{publication.song.name}}</h3>
+					<p am-time-ago="publication.date"></p>
+					<div ng-if="publication.voted">
+							<p>Tu voto:</p>
+							<button type="button" class="btn btn-primary btn-sm disabled item tag" id="{{tag._id}}" ng-repeat="tag in votedTags">{{tag.name}} <span class="badge">{{tag.value}}</span></button>
+					</div>
+
+					<div class="panel panel-default" ng-if="!publication.voted">
+						<div class="panel-body">
+							<form ng-submit="vote()">
+								<p>Tu voto: <span class="badge">{{voteValue}}</span></p>
+								<div class="bin panel panel-default" droppable drop="handleDropVote" id="voteBin"></div> 
+								<p>Etiquetas disponibles:</p>
+								<div class="bin panel panel-default" droppable drop="handleDropUnvote" id="tagsBin">
+									<button id="{{tag._id}}" type="button" ng-click="clickTag(tag)" class="btn btn-primary btn-sm item tag" draggable ng-repeat="tag in availableTags" >{{tag.name}} <span class="badge">{{tag.value}}</span></button>
+								</div>
+								<p class="form-signin-heading">Escribe un comentario sobre tu voto:</p>
+								<textarea ng-model="voteText" type="text" name="voteText" class="form-control"></textarea>
+							<button class="btn btn-primary send-button" type="submit" id="submit">Votar canción</button>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="panel-body" ng-if="publication.voted">
+			  	<form class="form-signin" role="form" ng-submit="comment()">
+			        <h3 class="form-signin-heading">Escribir comentario:</h3>
+					<textarea ng-model="commentText" class="form-control" required></textarea>
+					<button class="btn btn-primary send-button" type="submit" id="comment">Enviar</button>
+			    </form>
+			</div>
+
+			<div class="panel panel-default" ng-if="!publication.voted">
+				<div class="panel-body">
+					<h4>Vota la canción para ver los votos y comentarios</h4>
+				</div>
+			</div>
+
+			<div class="panel panel-default" ng-if="publication.voted" ng-repeat="comment in totalComments | orderBy: 'date': true">
+			  	<div class="panel-heading"><img class="small-thumbnail" ng-src="{{config.serverUrl}}{{comment.player.thumbLink}}"/> 
+			  		<a ng-href="#/profile/{{comment.player._id}}">{{comment.player.name}}</a>
+			 		<span am-time-ago="comment.date"></span>
+			 	</div>
+			  	<div class="panel-body comment-body">
+			  		<p>{{comment.comment}}</p>
+			    	<div class="tags">
+			    		<button type="button" class="btn btn-primary btn-sm disabled tag" id="{{tag._id}}" ng-repeat="tag in comment.tags">{{tag.name}} <span class="badge">{{tag.value}}</span></button>
+			    	</div>
+				</div>
+			</div>
+
+			</div>
+		</div>
+	</div>
+</div>

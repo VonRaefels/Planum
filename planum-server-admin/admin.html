@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Planum admin</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <link href="css/bootstrap.css" rel="stylesheet">
+    <link href="css/bootstrap-responsive.css" rel="stylesheet">
+    <style>
+      thead th{
+        font-size: 20px;
+        color: red;
+      }
+      .user {
+        color: orange;
+      }
+
+      .active {
+        color: #bbbbbb !important;
+        text-decoration: none !important;
+        background: #000000 !important;
+      }
+      .modal-strong {
+        color: #333 !important;
+      }
+      #ascii-banner {
+        float:left;
+        margin-top:15px;
+        margin-bottom:15px;
+        font-size: 10pt !important;
+        display: block;
+        font-family: monospace;
+        white-space: pre;
+        /*margin: 1em 0px;*/
+        color: white;
+        line-height: 17px !important;
+        background-color: #000084 !important;
+        margin-left: 100px;
+      }
+
+      footer {
+          position: fixed;
+          height: 100px;
+          bottom: 0;
+          width: 100%;
+      }
+    </style>
+    <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="assets/js/html5shiv.js"></script>
+    <![endif]-->
+  </head>
+
+  <body>
+    <script type="text/x-handlebars">
+      <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+        <div class="navbar-inner">
+          <div class="container">
+            <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            </button>
+            {{#link-to 'home' class='brand'}}Planum{{/link-to}}
+            <div class="nav-collapse collapse">
+              <ul class="nav navbar-nav">
+                <li class="">
+                  {{#link-to 'players'}}Players{{/link-to}}
+                </li>
+                <li class="">
+                  {{#link-to 'games'}}Games{{/link-to}}
+                </li>
+                <li class="">
+                  {{#link-to 'tags'}}Tags{{/link-to}}
+                </li>
+                <li class="">
+                  {{#link-to 'songs'}}Songs{{/link-to}}
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      {{outlet}}
+      <br>
+      <footer class="footer">
+        <div class="container">
+          User: <span class="user">{{firstName}} {{lastName}}</span><br>
+          <a href="#" {{action 'logout'}}>logout</a>
+        </div>
+      </footer>
+      {{outlet modal}}
+    </script>
+
+    <script type="text/x-handlebars" id="home">
+      <header class="jumbotron subhead" id="overview">
+        <div class="container">
+          <h1>Getting started</h1>
+          <p class="lead">Welcome <span class="user">{{firstName}}</span> to planum administration page.</p>
+        </div>
+      </header>
+      <pre id="ascii-banner" >
+ ____    ___                                            ____        ___
+/\  _`\ /\_ \                                          /\  _`\     /\_ \
+\ \ \L\ \//\ \      __      ___   __  __    ___ ___    \ \ \L\ \___\//\ \      __     _ __    __
+ \ \ ,__/ \ \ \   /'__`\  /' _ `\/\ \/\ \ /' __` __`\   \ \ ,__/ __`\\ \ \   /'__`\  /\`'__\/'__`\
+  \ \ \/   \_\ \_/\ \L\.\_/\ \/\ \ \ \_\ \/\ \/\ \/\ \   \ \ \/\ \L\ \\_\ \_/\ \L\.\_\ \ \//\  __/
+   \ \_\   /\____\ \__/.\_\ \_\ \_\ \____/\ \_\ \_\ \_\   \ \_\ \____//\____\ \__/.\_\\ \_\\ \____\
+    \/_/   \/____/\/__/\/_/\/_/\/_/\/___/  \/_/\/_/\/_/    \/_/\/___/ \/____/\/__/\/_/ \/_/ \/____/
+
+
+    </pre>
+    </script>
+
+    <!-- SONGS -->
+
+    <script type="text/x-handlebars" id="songs">
+      <header class="jumbotron subhead" id="overview">
+        <div class="container">
+          <h1>songs</h1>
+          <p class="lead">Songs administration</p>
+        </div>
+      </header>
+      <div class="container">
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Name</th>
+              <th>Artist link</th>
+              <th>YoutubeId</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            {{#each song in this}}
+              <tr>
+                <td>{{#link-to 'song' song}}{{song.id}}{{/link-to}}</td>
+                <td>{{song.name}}</td>
+                <td>{{song.artist}}</td>
+                <td><a href="#" {{action 'openYoutube' song}}>{{song.youtubeId}}</a></td>
+                <td><a href="#" {{action 'showModal' 'delete-modal' song}}>delete</a></td>
+              </tr>
+            {{/each}}
+          </tbody>
+        </table>
+        {{#link-to 'song.new'}}New song{{/link-to}}
+      </div>
+    </script>
+
+    <script type="text/x-handlebars" id="songs/index">
+      {{partial 'songs'}}
+    </script>
+
+    <script type="text/x-handlebars" id="song">
+      <header class="jumbotron subhead" id="overview">
+        <div class="container">
+          <h1>songs</h1>
+          <p class="lead">Songs administration</p>
+        </div>
+      </header>
+      <div class="container">
+        <form class="form-horizontal">
+          <div class="control-group">
+            <label class="control-label" for="id">Id</label>
+            <div class="controls">
+              {{input value=id type="text" disabled="disabled" class="input-xlarge"}}
+            </div>
+          </div>
+          {{partial 'song/form'}}
+        </form>
+      </div>
+    </script>
+
+    <script type="text/x-handlebars" id="song/form">
+      <div class="control-group">
+          <label class="control-label" >Name</label>
+          <div class="controls">
+            {{input value=name type="text" class="input-xlarge"}}
+          </div>
+        </div>
+        <div class="control-group">
+          <label class="control-label" >Artist</label>
+          <div class="controls">
+            {{input value=artist type="text" class="input-xxlarge"}}
+          </div>
+        </div>
+        <div class="control-group">
+          <label class="control-label" >YoutubeId</label>
+          <div class="controls">
+            {{input value=youtubeId type="text" class="input-xlarge"}}
+          </div>
+        </div>
+        <div class="control-group">
+          <div class="controls">
+            <button type="button" {{action 'save'}} class="btn">
+            {{#if isSaving}}
+              Saving...
+            {{else}}
+              Save
+            {{/if}}
+            </button>
+            <button type="button" {{action 'back' }} class="btn">Back</button>
+          </div>
+        </div>
+        {{#if saved}}<div class="alert alert-success">Song saved succesfully!</div>{{/if}}
+    </script>
+
+    <script type="text/x-handlebars" id="song/new">
+      <header class="jumbotron subhead" id="overview">
+        <div class="container">
+          <h1>songs</h1>
+          <p class="lead">Songs administration</p>
+        </div>
+      </header>
+      <div class="container">
+        <form class="form-horizontal">
+          {{partial 'song/form'}}
+        </form>
+      </div>
+    </script>
+
+
+    <!-- PLAYERS -->
+
+    <script type="text/x-handlebars" id="players">
+      <header class="jumbotron subhead" id="overview">
+        <div class="container">
+          <h1>players</h1>
+          <p class="lead">Players administration</p>
+        </div>
+      </header>
+      <div class="container">
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Name</th>
+              <th>Image link</th>
+              <th>Game</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            {{#each player in this}}
+              <tr>
+                <td>{{#link-to 'player' player}}{{player.id}}{{/link-to}}</td>
+                <td>{{player.name}}</td>
+                <td>{{player.thumbLink}}</td>
+                <td>{{#link-to 'game' player.activeGame}}{{player.activeGame.name}}{{/link-to}}</td>
+                <td><a href="#" {{action 'showModal' 'delete-modal' player}}>delete</a></td>
+              </tr>
+            {{/each}}
+          </tbody>
+        </table>
+        {{#link-to 'player.new'}}New player{{/link-to}}
+      </div>
+    </script>
+
+    <script type="text/x-handlebars" id="players/index">
+      {{partial 'players'}}
+    </script>
+
+    <script type="text/x-handlebars" id="player">
+      <header class="jumbotron subhead" id="overview">
+        <div class="container">
+          <h1>players</h1>
+          <p class="lead">Players administration</p>
+        </div>
+      </header>
+      <div class="container">
+        <form class="form-horizontal">
+          <div class="control-group">
+            <label class="control-label" for="id">Id</label>
+            <div class="controls">
+              {{input value=id type="text" disabled="disabled" class="input-xlarge"}}
+            </div>
+          </div>
+          {{partial 'player/form'}}
+        </form>
+      </div>
+    </script>
+
+    <script type="text/x-handlebars" id="player/form">
+      <div class="control-group">
+          <label class="control-label" >Name</label>
+          <div class="controls">
+            {{input value=name type="text" class="input-xlarge"}}
+          </div>
+        </div>
+        <div class="control-group">
+          <label class="control-label" >Image link</label>
+          <div class="controls">
+            {{input value=thumbLink type="text" class="input-xxlarge"}}
+          </div>
+        </div>
+        <div class="control-group">
+          <label class="control-label" >First Name</label>
+          <div class="controls">
+            {{input value=firstName type="text" class="input-xlarge"}}
+          </div>
+        </div>
+        <div class="control-group">
+          <label class="control-label" >Last Name</label>
+          <div class="controls">
+            {{input value=lastName type="text" class="input-xlarge"}}
+          </div>
+        </div>
+        <div class="control-group">
+          <label class="control-label" >Email</label>
+          <div class="controls">
+            {{input value=email type="text" class="input-xxlarge"}}
+          </div>
+        </div>
+        <div class="control-group">
+          <div class="controls">
+            <button type="button" {{action 'save'}} class="btn">
+            {{#if isSaving}}
+              Saving...
+            {{else}}
+              Save
+            {{/if}}
+            </button>
+            <button type="button" {{action 'back' }} class="btn">Back</button>
+          </div>
+        </div>
+        {{#if saved}}<div class="alert alert-success">Player saved succesfully!</div>{{/if}}
+    </script>
+
+    <script type="text/x-handlebars" id="player/new">
+      <header class="jumbotron subhead" id="overview">
+        <div class="container">
+          <h1>players</h1>
+          <p class="lead">Players administration</p>
+        </div>
+      </header>
+      <div class="container">
+        <form class="form-horizontal">
+          {{partial 'player/form'}}
+        </form>
+      </div>
+    </script>
+
+    <!-- TAGS -->
+
+    <script type="text/x-handlebars" id="tags">
+      <header class="jumbotron subhead" id="overview">
+        <div class="container">
+          <h1>players</h1>
+          <p class="lead">Tags administration</p>
+        </div>
+      </header>
+      <div class="container">
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Name</th>
+              <th>Image link</th>
+              <th>Value</th>
+              <th>Css</th>
+              <th>Active</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            {{#each tag in this}}
+              <tr>
+                <td>{{#link-to 'tag' tag}}{{tag.id}}{{/link-to}}</td>
+                <td>{{tag.name}}</td>
+                <td>{{tag.imgLink}}</td>
+                <td>{{tag.value}}</td>
+                <td>{{tag.css}}</td>
+                <td>{{input type="checkbox" checked=tag.active}}</td>
+                <td><a href="#" {{action 'showModal' 'delete-modal' tag}}>delete</a></td>
+              </tr>
+            {{/each}}
+          </tbody>
+        </table>
+        {{#link-to 'tag.new'}}New tag{{/link-to}}
+      </div>
+    </script>
+
+    <script type="text/x-handlebars" id="tags/index">
+      {{partial 'tags'}}
+    </script>
+
+    <script type="text/x-handlebars" id="tag">
+      <header class="jumbotron subhead" id="overview">
+        <div class="container">
+          <h1>tags</h1>
+          <p class="lead">Tags administration</p>
+        </div>
+      </header>
+      <div class="container">
+        <form class="form-horizontal">
+          <div class="control-group">
+            <label class="control-label" for="id">Id</label>
+            <div class="controls">
+              {{input value=id type="text" disabled="disabled" class="input-xlarge"}}
+            </div>
+          </div>
+          {{partial 'tag/form'}}
+        </form>
+      </div>
+    </script>
+
+    <script type="text/x-handlebars" id="tag/new">
+      <header class="jumbotron subhead" id="overview">
+        <div class="container">
+          <h1>tags</h1>
+          <p class="lead">Tags administration</p>
+        </div>
+      </header>
+      <div class="container">
+        <form class="form-horizontal">
+          {{partial 'tag/form'}}
+        </form>
+      </div>
+    </script>
+
+    <script type="text/x-handlebars" id="tag/form">
+      <div class="control-group">
+          <label class="control-label" >Name</label>
+          <div class="controls">
+            {{input value=name type="text" class="input-xlarge"}}
+          </div>
+        </div>
+        <div class="control-group">
+          <label class="control-label" >Image link</label>
+          <div class="controls">
+            {{input value=thumbLink type="text" class="input-xxlarge"}}
+          </div>
+        </div>
+        <div class="control-group">
+          <label class="control-label" >Value</label>
+          <div class="controls">
+            {{input value=value type="text" class="input-xlarge"}}
+          </div>
+        </div>
+        <div class="control-group">
+          <label class="control-label" >Css</label>
+          <div class="controls">
+            {{input value=css type="text" class="input-xlarge"}}
+          </div>
+        </div>
+        <div class="control-group">
+          <div class="controls">
+            <button type="button" {{action 'save'}} class="btn">
+            {{#if isSaving}}
+              Saving...
+            {{else}}
+              Save
+            {{/if}}
+            </button>
+            <button type="button" {{action 'back' }} class="btn">Back</button>
+          </div>
+        </div>
+        {{#if saved}}<div class="alert alert-success">Tag saved succesfully!</div>{{/if}}
+    </script>
+
+    <!-- GAMES -->
+
+    <script type="text/x-handlebars" id="games">
+      <header class="jumbotron subhead" id="overview">
+        <div class="container">
+          <h1>games</h1>
+          <p class="lead">Games administration</p>
+        </div>
+      </header>
+      <div class="container">
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Name</th>
+              <th>active</th>
+            </tr>
+          </thead>
+          <tbody>
+            {{#each game in this}}
+              <tr>
+                <td>{{#link-to 'game' game}}{{game.id}}{{/link-to}}</td>
+                <td>{{game.name}}</td>
+                <td>{{input type="checkbox" checked=game.active}}</td>
+                <!--<td><a href="#" {{action 'showModal' 'delete-modal' player}}>delete</a></td>-->
+              </tr>
+            {{/each}}
+          </tbody>
+        </table>
+        {{#link-to 'game.new'}}New game{{/link-to}}
+      </div>
+    </script>
+
+    <script type="text/x-handlebars" id="games/index">
+      {{partial 'games'}}
+    </script>
+
+    <script type="text/x-handlebars" id="game">
+      <header class="jumbotron subhead" id="overview">
+        <div class="container">
+          <h1>games</h1>
+          <p class="lead">Games administration</p>
+        </div>
+      </header>
+      <div class="container">
+        <form class="form-horizontal">
+          <div class="control-group">
+            <label class="control-label" for="id">Id</label>
+            <div class="controls">
+              {{input value=id type="text" disabled="disabled" class="input-xlarge"}}
+            </div>
+          </div>
+          {{partial 'game/form'}}
+        </form>
+
+      </div>
+    </script>
+
+    <script type="text/x-handlebars" id="game/form">
+      <div class="control-group">
+        <label class="control-label" >Name</label>
+        <div class="controls">
+          {{input value=name type="text" class="input-xlarge"}}
+        </div>
+      </div>
+      <div class="control-group">
+        <label class="control-label" >Players</label>
+        <br>
+        <div class="controls">
+          <table style="width: 60%;" class="table">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Name</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+            {{#each player in players}}
+              <tr>
+                <td>{{#link-to 'player' player}}{{player.id}}{{/link-to}}</td>
+                <td>{{player.name}}</td>
+                <td><a href="#" {{action 'showRemovePlayerModal' 'remove-player-modal' ../this player}}>remove</a></td>
+              </tr>
+            {{/each}}
+            </tbody>
+          </table>
+          <a href="#" {{action 'showAddPlayerModal' 'add-player-modal' this}}>Add players</a>
+        </div>
+      </div>
+      <div class="control-group">
+        <div class="controls">
+          <button type="button" {{action 'save'}} class="btn">
+          {{#if isSaving}}
+            Saving...
+          {{else}}
+            Save
+          {{/if}}
+          </button>
+          <button type="button" {{action 'back' }} class="btn">Back</button>
+        </div>
+      </div>
+      {{#if saved}}<div class="alert alert-success">Game saved succesfully!</div>{{/if}}
+    </script>
+
+    <script type="text/x-handlebars" id="game/new">
+      <header class="jumbotron subhead" id="overview">
+        <div class="container">
+          <h1>games</h1>
+          <p class="lead">Games administration</p>
+        </div>
+      </header>
+      <div class="container">
+        <form class="form-horizontal">
+          {{partial 'game/form'}}
+        </form>
+      </div>
+    </script>
+
+    <!-- MODAL -->
+
+    <script type="text/x-handlebars" data-template-name="add-player-modal">
+      {{#my-modal title='Add player' ok='addPlayer' close='removeModal'}}
+        <table class="table">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Name</th>
+              <th>Add</th>
+            </tr>
+          </thead>
+        {{#each player in players}}
+          <tr>
+            <td><span class="modal-strong">{{player.id}}</span></td>
+            <td><span class="modal-strong">{{player.name}}</span></td>
+            <td><input type="checkbox" name="players-to-add" {{bind-attr value="player.id"}}></td>
+          </tr>
+        {{/each}}
+        </table>
+      {{/my-modal}}
+    </script>
+
+    <script type="text/x-handlebars" data-template-name="delete-modal">
+      {{#my-modal title='Delete' ok='delete' close='removeModal'}}
+        Are you sure you want to delete the item? <br>
+        Name: <span class="modal-strong">{{name}}</span><br>
+        Id: <span class="modal-strong">{{id}}</span><br>
+      {{/my-modal}}
+    </script>
+
+    <script type="text/x-handlebars" data-template-name="remove-player-modal">
+      {{#my-modal title='Remove player' ok='remove' close='removeModal'}}
+        Removing permantly the player from the game? <br>
+        Name: <span class="modal-strong">{{player.name}}</span><br>
+        Id: <span class="modal-strong">{{player.id}}</span><br>
+      {{/my-modal}}
+    </script>
+
+    <script type="text/x-handlebars" data-template-name="components/my-modal">
+      <div class="modal fade">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+              <h4 class="modal-title">{{title}}</h4>
+            </div>
+            <div class="modal-body">
+              {{yield}}
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-primary" {{action 'ok'}}>OK</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </script>
+
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script src="js/lib/q.js"></script>
+    <script src="js/oauth.js"></script>
+    <script src="js/lib/bootstrap.js"></script>
+    <script>
+      if(Oauth.isAuthenticated()) {
+        console.log('ok');
+      }else {
+        window.location.href = 'index.html';
+      }
+      _386.fastLoad = true;
+    </script>
+    <script src="js/lib/handlebars-1.1.2.js"></script>
+    <script src="js/lib/ember-1.6.0.js"></script>
+    <script src="js/lib/ember-data.js"></script>
+    <script src="js/app.js"></script>
+    <script src="js/routes.js"></script>
+    <script src="js/controllers.js"></script>
+  </body>
+</html>

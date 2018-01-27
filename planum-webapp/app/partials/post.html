@@ -1,0 +1,127 @@
+<div class="container-fluid">
+	<div class="row">
+
+		<div class="col-md-3">
+			<legend >Canciones en cola</legend>
+			<ul class="list-group player-queue" cg-busy="queuePromise">
+				<li ng-repeat="song in songQueue" class="list-group-item">
+					<div class="row">
+						<div class="col-md-3"><img class="youtube-thumbnail-queue " ng-src="http://img.youtube.com/vi/{{song.youtubeId}}/hqdefault.jpg" /></div>
+					  <span class="col-md-7">{{song.artist}} - {{song.name}}</span>
+					  <div class="col-md-2">
+					  	<button ng-click="deleteSongFromQueue(song)" type="button" class="btn btn-default  btn-sm"><span class="glyphicon glyphicon-ban-circle"></span></button>
+					  </div>
+					</div>
+				</li>
+			</ul>
+		</div>
+
+
+		<form class="form-horizontal simple-form col-md-3">
+			<fieldset>
+
+			<legend>Buscar canción para publicar</legend>
+
+			<div class="form-group">
+			  <label class="col-md-2 control-label">Artista</label>  
+			  <div class="col-md-10">
+			  <input ng-disabled="artistSelected" ng-model="artistName" type="text" class="form-control input-md" placeholder="Busca un artista">
+			  </div>
+			</div>
+
+			<div class="form-group" ng-show="artistSelected">
+			  <label class="col-md-2 control-label" for="titulo">Título</label>  
+			  <div class="col-md-10">
+			  <input ng-disabled="songSelected" id="titulo" name="titulo" ng-model="title" type="text" class="form-control input-md" placeholder="Busca un título">
+			  </div>
+			</div>
+
+			<div class="form-group">
+				 <label class="col-md-2 control-label">Versión</label>
+				 <div class="col-md-10">
+					<select  class="form-control">
+					  <option>1</option>
+					  <option>2</option>
+					  <option>3</option>
+					  <option>4</option>
+					  <option>5</option>
+					</select>
+				</div>
+			</div>
+
+			<div class="form-group" ng-if="!artistSelected">
+			  <label class="control-label"></label>
+			  <div class="col-md-10">
+			    <button  ng-click="searchArtist()" id="searchSong" name="searchSong" class="btn btn-primary">Buscar</button>
+			  </div>
+			</div>
+
+			<div class="form-group" ng-if="artistSelected">
+			  <label class="control-label" ></label>
+			  <div class="col-md-10">
+			    <button ng-click="searchSong()" class="btn btn-primary">Buscar</button>
+			    <button ng-click="resetSearch()" class="btn btn-default ">Limpiar</button>
+			  </div>
+			</div>
+
+			</fieldset>
+		</form>
+
+		<div class="col-md-6">
+
+			<div ng-show="!songSearched"><legend>Selecciona un artista</legend>
+				<ul cg-busy="songPromise" class=" list-group player-queue">
+				  <li ng-repeat="artist in artistResponse" class="list-group-item result">
+				  	<a href ng-click="selectArtist(artist)">
+				  		<div class="row">
+						  	<div class="col-md-2"><img class="thumbnail-artist-search" ng-src="{{artist.image[1]['#text']}}" /></div>
+						  	<h4 class="col-md-10">{{artist.name}}</h4>
+						</div>
+					</a>
+				  </li>
+				  <li class="list-group-item result" ng-hide="results"><h4> No se han encontrado resultados :( </h4></li>
+				</ul>
+			</div>
+
+			<div ng-show="songSearched && !songSelected"><legend>Selecciona un título</legend>
+				<ul cg-busy="songPromise" class=" list-group player-queue">
+				  <li ng-repeat="song in songResponse" class="list-group-item result">
+					  <a href ng-click="searchSongPlanum(artist.name,song.name)">
+					  	<div class="row">
+						  	<span class="col-md-10">{{song.name}}</span>
+						</div>
+					  </a>
+				  </li>
+				  <li class="list-group-item result" ng-hide="results"><h4> No se han encontrado resultados :( </h4></li>
+				</ul>
+			</div>
+			
+			<div ng-show="songSelected && !youtubeSearched"><legend>Selecciona una canción</legend>
+				<ul cg-busy="songPlanumPromise" class=" list-group player-queue">
+				  <li ng-repeat="song in planumResponse" class="list-group-item result">
+						  <div class="row">
+							  <div class="col-md-2"><img class="youtube-thumbnail-queue" ng-src="http://img.youtube.com/vi/{{song.youtubeId}}/hqdefault.jpg" /></div>
+							  	<span class="col-md-8">{{song.artist}} - {{song.name}}</span>
+							  	<div class="col-md-2"><button ng-click="addSongToQueue(song)" type="button" class="btn btn-default btn-lg"><span class="glyphicon glyphicon-ok"></span></button></div>
+						  </div>
+				  </li>
+				  <li class="list-group-item result"><h4> Si no encuentras la canción en Planum, puedes buscarla en </h4><button ng-click="youtubeSearch()" id="youtubeSearch" name="youtubeSearch" class="btn btn-primary">Youtube</button></li>
+				</ul>
+			</div>
+
+			<div ng-show="youtubeSearched"><legend>Selecciona una canción de Youtube</legend>
+				<ul cg-busy="youtubePromise" class="list-group player-queue">
+				  	<li ng-repeat="song in youtubeResponse" class="list-group-item result">
+					  <div class="row">
+						  <div class="col-md-2"><img class="youtube-thumbnail-queue" ng-src="http://img.youtube.com/vi/{{song.youtubeId}}/hqdefault.jpg" /></div>
+						  	<span class="col-md-8">{{song.title}}</span>
+						  	<div class="col-md-2"><button ng-click="addSongToQueueYoutube(song.youtubeId)" type="button" class="btn btn-default btn-lg"><span class="glyphicon glyphicon-ok"></span></button> <small> Youtube</small></div>
+					  </div>
+					</li>
+				</ul>
+			</div>
+
+		</div>
+
+	</div>
+</div>

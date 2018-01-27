@@ -1,0 +1,1 @@
+- Al subir una nueva cancion de youtube la api y luego pedirla de vuelta, sale sin titulo.

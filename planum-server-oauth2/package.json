@@ -1,0 +1,14 @@
+{
+  "name": "Planum-Oauth",
+  "version": "0.0.1",
+  "private": true,
+  "dependencies": {
+    "express": "3.X",
+    "node-oauth2-server": "2.X",
+    "mongoose": "3.X",
+    "morgan": "~1.0.0",
+    "mocha": "1.6.0",
+    "supertest": "0.4.0",
+    "chai": "1.9.X"
+  }
+}

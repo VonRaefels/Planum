@@ -1,0 +1,21 @@
+<div class="container">
+	<h3>Partidas disponibles</h3>
+	<ul class="list-group player-queue">
+		<li ng-repeat="game in games" class="list-group-item result col-md-8">
+		  	<a href ng-click="chooseGame(game)">
+		  		<div class="row">
+				  	<span class="col-md-6">{{game.name}}</span>
+				</div>
+			</a>
+		</li>
+	</ul>
+	<div class="col-md-12">
+	<h3>Crear partida/ Unirse a partida</h3>
+		<form class="form-inline" role="form">
+			<div class="form-group">
+		      <input type="text" class="form-control" id="name" placeholder="Nombre" ng-model="newGameName" required>
+		      <button type="submit" class="btn btn-primary" ng-click="newGame()">Nueva partida</button>
+			</div>
+		</form>	
+	</div>
+</div>

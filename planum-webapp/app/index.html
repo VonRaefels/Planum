@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Planum Webapp</title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="bower_components/normalize-css/normalize.css"/>
+  <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap-theme.min.css"/>
+  <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css"/>
+  <link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600' rel='stylesheet' type='text/css'>
+  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="css/app.css"/>
+
+</head>
+<body>
+
+  <div class="container"><h1>Planum</h1></div>
+
+<div class="container">
+
+  <div class="container col-md-4">
+    <div class="thumbnail">
+      <div class="container"><h3>Entra en Planum</h3></div>
+      <div class="panel-body">
+        <form role="form">
+          <div class="input-group">
+            <span class="input-group-addon"><span class="glyphicon glyphicon-user"></span> Usuario</span>
+            <input type="text" id="user" class="form-control" placeholder="Usuario" required="" autofocus="" value="">
+          </div>
+          </br>
+          <div class="input-group">
+            <span class="input-group-addon"><span class="glyphicon glyphicon-question-sign"></span> Contraseña</span>
+            <input type="password" id="password" class="form-control" placeholder="Contraseña" required="" value="">
+          </div>
+          </br>
+          <button class="btn btn-lg btn-primary" type="submit" id="authenticate">Entrar</button>
+        </form>
+      </div>
+    </div>
+  </div>
+  <div class="container col-md-2"></div>
+
+  <div class="container col-md-4">
+    <div class="thumbnail">
+    <div class="container"><h3>Regístrate</h3></div>
+      <div class="panel-body">
+        <form role="form">
+          <div class="input-group">
+            <span class="input-group-addon"><span class="glyphicon glyphicon-user"></span> Usuario</span>
+            <input type="text" id="registerUser" class="form-control" placeholder="Usuario" required="" autofocus="" value="">
+          </div>
+          </br>
+          <div class="input-group">
+            <span class="input-group-addon"><span class="glyphicon glyphicon-question-sign"></span> Contraseña</span>
+            <input type="password" id="registerPassword" class="form-control" placeholder="Contraseña" required="" value="">
+          </div>
+          </br>
+          <div class="input-group">
+            <span class="input-group-addon"><span class="glyphicon glyphicon-music"></span> Partida</span>
+            <input type="text" id="game" class="form-control" placeholder="Nombre de partida" required="" value="">
+          </div>
+          </br>
+           <div class="input-group">
+            <span class="input-group-addon"><span class="glyphicon glyphicon-font"></span> Nombre</span>
+            <input type="text" id="firstName" class="form-control" placeholder="Nombre" required="" value="">
+          </div>
+          </br>
+           <div class="input-group">
+            <span class="input-group-addon"><span class="glyphicon glyphicon-font"></span> Apellido</span>
+            <input type="text" id="lastName" class="form-control" placeholder="Apellido" required="" value="">
+          </div>
+          </br>
+           <div class="input-group">
+            <span class="input-group-addon"><span class="glyphicon glyphicon-envelope"></span> email</span>
+            <input type="text" id="email" class="form-control" placeholder="email" required="" value="">
+          </div>
+          </br>
+          <button class="btn btn-lg btn-primary" type="submit" id="register">Registrarse</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+
+<script src="js/oauth.js"></script>
+<script>
+    $(document).ready(function(){
+      $('#authenticate').click(function(ev) {
+        ev.preventDefault();
+        var user = $('#user').val();
+        var password = $('#password').val();
+        Oauth.authenticate(user, password, function(err) {
+          if(err) {
+            alert("Datos no válidos.");
+          }else {
+            window.location.href = 'app.html';
+          }
+        });
+      });
+      $('#register').click(function(ev) {
+        ev.preventDefault();
+        var user = $('#registerUser').val();
+        var password = $('#registerPassword').val();
+        var game = $('#game').val();
+        var firstName = $('#firstName').val();
+        var lastName = $('#lastName').val();
+        var email = $('#email').val();
+        var thumbLink = "/img/players/profile.png";
+        var data = { name: user, password: password, game: game, firstName: firstName, lastName: lastName, email: email, thumbLink: thumbLink };
+        var request = $.ajax({
+          type: 'POST',
+          url: 'http://54.76.208.124/api/players',
+          data: data
+        });
+        request.done(function(status) {
+          Oauth.authenticate(user, password, function(err) {
+            if(err) {
+              alert("Datos no válidos.");
+            }else {
+              window.location.href = 'app.html';
+            }
+          });
+        });
+        request.fail(function() {
+           alert("Datos no válidos.");
+        });
+      });
+    });
+  </script>
+
+</body>
+</html>

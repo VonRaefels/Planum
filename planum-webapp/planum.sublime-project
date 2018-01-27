@@ -1,0 +1,17 @@
+{
+	"folders":
+	[
+		{
+			"follow_symlinks": true,
+			"path": "C:\\Users\\66785379\\Documents\\Git\\planum-project\\planum-webapp"
+		},
+		{
+			"follow_symlinks": true,
+			"path": "C:\\Users\\66785379\\Documents\\Git\\planum-project\\planum-server-api"
+		},
+		{
+			"follow_symlinks": true,
+			"path": "C:\\Users\\66785379\\Documents\\Git\\planum-project\\planum-server-admin"
+		}
+	]
+}

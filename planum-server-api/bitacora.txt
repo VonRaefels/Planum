@@ -1,0 +1,290 @@
+--- 5 de Junio. ---
+-> Instalación de mongodb y manejo de la consola mongo.
+-> Instalación de nodejs
+-> Instalación de express y express-generator.
+-> npm...
+-> Hello World planum api.
+-> Mongoose, pluralización y normalización de las colecciones.
+-> node-oauth2-server sistema de callbacks con llamadas ordenadas...
+-> REST Console.
+-> Funcionamiento de auth-server:
+    -> Para recibir el primer juego de tokens se debe hacer una petición POST a /auth/token con los siguientes parámetros POST:
+        -> username
+        -> password
+        -> grant_type: 'password'
+        -> Header tipo Authorization con el contenido: "Basic" + base64Encode(client_id:client_secret)
+    -> Para poder entrar en las zonas autorizadas se debe enviar la siguiente Header:
+        -> Authorization: Bearer {token}
+    -> Para refrescar el token una vez haya caducado se debe enviar lo siguiente a /auth/token con POST
+        -> grant_type: 'refresh_token'
+        -> refresh_token: {refresh_token}
+        -> Mismo header que en el primer caso.
+-> Voy a realizar test automáticos...
+
+--- 6 de Junio.
+-> Instalación de mocha.
+->Primer test realizado, envía una petición a /test-auth pero sin haberse autenticado antes, la respuesta es un 400.
+-> Tests completados (fallos, post token OK, refresh token, test auth...).
+-> Creación de repositorio y subida a bitbucket.
+-> README.txt
+
+--- 26 de Junio ---
+-> Actualización al nuevo repositorio común.
+-> Actualización de package.json con los packetes mocha, supertes y chai.
+-> cambio de debug a false en app.js
+-> Creación del proyecto de la api planum-server-api con express.
+-> Agregados los módulos npm (mongoose, chai)
+-> Para ejecutar npm start, invoca el binario bajo bin/
+-> Creado test hello world con mocha.
+-> Primer test con TDD.
+
+--- Martes 1 de Julio ---
+-> Creados primeros esquémas de Player y Game.
+-> Creados scripts de creación y mock en js.
+-> Primer test para testear el modelo de datos.
+-> Problemas con la pluralización de mongoDB.
+-> Creadas clases del modelo Round y Publications.
+-> Creado un test mas para las publicaciones.
+
+--- Miercoles 2 de Julio ---
+-> Creado modelo de etiquetas y tests.
+-> Creado modelo de votos y comentarios con sus respectivos test.
+-> Se han separado los tests del objecto provider, de la clase util javascript mediante otro describe.
+-> Cambio de nombre de objecto providera a storage
+-> Separados los tests de find y saves.
+-> Ahora se llama a mockdata.js antes de cada test al hacer require('mockBefore');
+-> Se guardan objectos commentario.
+-> Se guardan los objetos votaciones.
+-> Instalado y testeado el servidor oauth en mi pc.
+-> Creado primer punto de entrada en /api/game, se han modificado app.js (para añadir el app.use) y se ha creado el fichero api.js con el método para /api/game.
+    De momento recibe por parámetro GET el playerId, pero en el futuro se sustuira por el mecanísmo de Oauth.
+-> Primer test para la api con supertest.
+
+--- Jueves 3 de Julio ---
+-> Agregado middleware al fichero app.js para poder comprobar la autenticación contra el servidor de oauth.
+-> Segundo test de la api.
+
+--- Viernes 5 de Julio ---
+-> Tercer test de la api haciendo una request contra el servidor de oauth en local.
+-> El servidor comprueba si existe la cabecera 'authorization' para no tener que enviar la consulta contra el servidor de oauth.
+-> También se comprueba el contenido mediante expresion regular.
+-> Agregada la librería request en el package.json para realizar la comunicación contra el servidor de oauth.
+-> Ahora la api se comunica con el servidor de oauth enviando la respuesta.
+-> El servidor de oauth envía en su json de respuesta el código ID de usuario de oauth que es el mismo id que el del player.
+-> Cuando en la autorización la api recibe el id de usuario lo guarda en la request para que lo puedan usar los métodos de storage.
+-> Todos los test funcionando.
+
+--- Sábado 6 de Julio ---
+-> Ahora se guarda el juego del usuario activo en la request...
+-> Creado punto de acceso para traer las publicaciones de una ronda y testeado.
+-> Punto de acceso para los votos de una publicación.
+-> Hay bastante código duplicado en los tests y algo en la api. Pero mejor dejarlo así por si cambian las especificaciones.
+-> Los comentarios y votos podrían ir juntos?
+-> Algún mecanísmo para popular el json de los objectId para que tenga la url completa HATEOA.
+-> Creando entrada para publicar nuevos votos...
+-> Creado método auxiliar con map para devolver array aleatorio de id's de etiquetas en util.js
+-> Método para publicar votos testeado falta VALIDACIÓN y comprobar si existe ya un voto para pisarlo o no?...
+
+--- Lunes 8 de Julio ---
+-> Nuevo punto de acceso para publicar commentarios en una publicación determinada... con tests funcionando.
+-> Creado nuevo modelo de datos para la canción y separado de la publicación.
+-> Ahora una publicación tiene una canción asociada.
+-> Creada cola de canciones para el usuario y test en storage.js.
+-> Las colecciones deben ser en minúsculas y cuidad con la pluralización...
+
+--- Martes 9 de Julio ---
+-> Creado punto de acceso a la api para recibir la cola de canciones del jugador.
+-> Creado un punto de acceso POST para agregar una canción a la cola (se usa POST porque no es idempotente... blah).
+-> Refactor en los tests, bootstrapRequest...
+-> Alguna manera de recuperar el id de usuario para poder usarlo en los tests. ![los test de este tipo se hacen directamente contra storage...]
+-> Librería async.
+-> Refactor de tests en save (me traigo los datos de prueba en before directamente).
+-> Creado punto de acceso a la api para recuperar los datos del jugador.
+-> Corregido método para insertar una cancion en la cola del jugador...
+-> Mejorado el método de guardar canciones en la cola del usuario para que si no tiene id la inserte y después la meta en la cola.
+
+--- Miercoles 10 de Julio ---
+-> Implementado método para buscar canciones báscio por coincidencias de texto. Se utiliza el parámetro $text
+    de mongoDB que permite separar por tokens las palabras y buscarlas a traves de unos indices de texto
+    previamente establecidos durante la creación de un modelo. Mejoras posibles: {ordenar la busqueda por prioridad,
+        usar regex para cruzar dicha busqueda}.
+-> Creado punto de acceso para dicha búsqueda en la api y testeado.
+-> Creado método en storage para recuperar el json de la publicación escogida con los votos del usuario
+    de acuerdo a las especificaciones del json. Para agregar propiedades en mongoose se debe llamar a toObject(),
+    el cual devuelve un json normal y corriente.
+-> Creado punto de entrada para dicho método.
+-> Creada clase config que contiene la url y el puerto. También tiene métodos de transformación de urls.
+-> Primeros pasos para HATEOA haciendo uso de config... (Automazación posible?).
+-> Creado punto de acceso para obtener datos de un jugador, eleminando el id del juego al que pertenece...
+-> Aplicado patrón regex en el router de la api para las publicaciones... /round/:id/publications
+-> Se han agregado imágenes para los usuarios en public...
+-> Correción de err en dumpDummyData, ahora se pasa el error por callback.
+-> Completados todos los HATEOAS hasta ahora mediante métodos de config e util.
+-> Refactor en storage para soportar el update de votos y comentarios a traves del _id. Si tiene ._id se hace update.
+-> POST para modificaciones (no es idempotente). PUT para insert....
+-> Refactor en algunos tests.
+
+--- Jueves 11 de Julio ---
+-> Añadido método al modelo de Publication para que devuelva las etiquetas votadas por el usuario.
+-> Creado test para encontrar dichas etiquetas.
+-> Los métodos de storage deben devolver el modelo de mongoose.
+-> Cuenta en AWS.
+-> Dashboard y free service en Amazon...
+-> Security groups para ssh, ftp, http and https.
+-> Agregado disco duro de 20GB Ebs...
+-> Configuración amazón para el fichero .pem y ssh...
+
+--- Lunes 14 de Julio ---
+-> Preparación de nginx en local (sudo apt-get install nginx).
+-> Crear un nuevo site en /etc/nginx/sites-available igual que si fuera Apache.
+-> Configurar el site con el server name y root necesarios. Crear link a sites-enabled.
+-> Configuracion /etc/hosts para que planum.com apunte a la dirección de nginx. (localhost en mi caso de momento).
+-> Sistema a montar:
+    -> oauth.planum.com | planum.com/oauth/ -> ataca al servidor de autenticación.
+    -> api.planum.com | planum.com/api/ -> ataca a la api json.
+    -> www.planum.com | planum.com -> ficheros estáticos html...
+-> Crear server que escuche en planum.com y añadir una ruta /var/www para los estáticos.
+-> Crear dos proxy pass a los servidores de autenticación y api.
+-> Creado sitio en nginx con configuración de subdominio para oauth.planum.com.
+-> Dar mucha importancia a nginx para reverse proxy y servidor de ficheros estáticos. http://www.wikivs.com/wiki/apache_vs_nginx
+-> Modificaciones al servidor de oauth para que soporte administración.
+-> Añadida referencia en el schema para que soporte populate de datos y cambiado método del modelo.
+-> Ahora al autorizar en el servidor de oauth se devuelve si el usuario es administrador o no.
+-> Primeros preparativos para parte de administración...
+
+--- Martes 15 de Julio ---
+-> Creada página de login con comunicación al servidor de oauth.
+-> Creado módulo javascript para comunicar con el servidor de oauth y guardar en cookies o localstorage los tokens.
+-> Investigar oauth2, distribución de clave y secreto para aplicaciones públicas, comprobar por dominio...
+-> Primeros pasos com ember js y handlebars. Ember data, api rest en /admin/api.
+-> Creado primer punto de acceso en la api admin, PROBAR CON USUARIOS NO AUTORIZADOS!.
+-> Primera conexión con la api desde ember.js.
+-> Peleandome con emberjs, listado de jugadores y ver un jugador concreto.
+-> El modelo no se recarga con cada petición.
+-> Corregido el bug de ember, ahora la peticion de players se trae todos los datos del modelo.
+-> Creado método put en la api que guarda en memoria los datos del jugador.
+-> Completado método para crear nuevos players a través de POST en la api.
+-> Bug en ember y falta la lógica de asociar jugadores a juegos y viceversa.
+
+--- Miercoles 16 de Julio ---
+-> Corregido app.js.
+-> Corregido bug de creacion de objetos en emberjs.
+-> Voy a implementar el borrado de jugadores.
+-> Borrado de jugadores con dialogo modal completado.
+-> Dialogo de borrado a través de un componente de diálogo bootstrap.
+-> Creada documentación para la api REST routes.txt
+-> Cambiados algunos nombres de puntos de entrada en plural.
+-> Creados modelos de ember para Game.
+-> Creadas plantillas de ember para Game.
+-> Creados puntos de entrada en /admin/api/ para Game...
+-> Raliciones hasMany en emberjs.
+-> Instalacion de ruby 1.9.1 y ruby-dev. gem mongo ruby, gem bson_ext..
+-> Script de procesamiento de partidas en mongo gameprocess.rb completado, faltan algunas cosas.
+
+--- Jueves 17 de Julio ---
+-> Cambios de reorganizacion en la administracion con lo js.
+-> Se muestra tabla con los jugadores de un juego en la administracion.
+-> Funcionalidad para agregar un jugador a un juego.
+-> Para agregar dicho jugador se ha creado un método el el ApplicationRouter que muestra
+    un dialog con el juego como modelo, el dialog filtra los jugadores totales menos los
+    jugadores del juego y permite seleccionar varios para agregar.
+-> Se ha agregado Q.js para procesar un conjunto de promesas asíncronas. IMPORTANTE PATRÓN.
+-> Creadon controladores, rutas y html para poder borrar un jugador de un juego determinado.
+-> Promise chaining. Promises vs async en nodejs.
+-> Borrado de jugadores dentro de un juego conseguido.
+-> Ahora se puede navegar entre jugadores y juegos con un simple link-to, bendito ember.
+-> Bug horrible al crear nuevos juegos.
+-> Corregido el bug, no se devolvía id en el juego.
+-> Administración de etiquetas.
+-> Completada administracion de tags, es lo mismo que players...
+-> Mejoras en la API con Carlos...
+-> Voy a intentar hacer un servidor proxy entre la api y el servidor de oauth como si fuera una aplicación más.
+-> El redirect no funciona puesto que contesta al cliente con un 302 para que haga una nueva peticion a la url que le indicques.
+-> Es necesario realizar una request y esperar a la respuesta (proxy), por lo que instalo request en npm.
+-> Proxy realizado, ahora la api guarda el token y no se distribulle publicamente.
+-> Se filtra por hosts permitidos en la autenticacion.
+-> Si no esta entre los permitidos no tiene accesso a la api publica.
+-> Los otros clientes se deben registrar y guardar sus claves y hablar directamente con el servidor oauth a traves de un subdominio.
+-> Ahora solo se pueden registrar usuarios administradores en la admin (desde javascript...).
+-> La carpeta de aplicaciones de nginx se compone de lo siguiete: admin-app app img. Configurado a través de nginx.
+-> Voy a instalar mongo en la primera instancia de Amazon siguiendo la siguiente guía: http://docs.mongodb.org/manual/tutorial/install-mongodb-on-ubuntu/
+-> Creada otra instancia Nginx, con otro security group, instalando nginx.
+
+--- Vienres 18 de Julio ---
+-> Apertura de puerto para que mongo pueda escuchar.
+-> Desabilitar solo la escucha en local de mongodb comentando la linea bind_ip en /etc/mongod.conf
+-> Creado script upstart en /etc/init/planum.conf.
+-> Creado script de upstart para el servidor de oauth.
+-> Completada configuracion básica para el funcionamiento en Amazon.
+
+---- Instalacion de api ----
+1. sudo apt-get install nodejs
+2. ln -s /usr/bin/nodejs /usr/bin/node
+3. Modificar fichero hosts para que mongodb apunte a la base de datos.
+4. sudo apt-get install npm.
+5. npm install mocha -g.
+7. Abrir los puertos de escucha en la máquina de mongodb.
+8. Abrir los puertos 1337 y 3000.
+9. Instalar forever.
+9. Instalar mongo-client para las pruebas.
+9. Subir los ficheros y pasar los tests.
+
+
+--- Sabado 19 de Julio ---
+-> Creacion de un subdominion oauth.planum.com para poder loguear desde la api sin que de bucle infinito.
+-> Agergar los subdominios a la configuracion de etc/hosts
+-> Ahora el acceso al servidor de oauth se realiza a través de oauth.planum.com, y el ya realizará el balanceo de carga.
+-> Balanceo de carga completado!
+-> Explicar el esquema de seguridad en los servidores, los puertos y demás....
+-> Mejoras varias en la api con carlos, fechas en mongo... borrar el jugador por seguridad en las publicaciones.
+-> Evitar el envío de votos duplicados...
+-> Ahora la fecha se genera automaticamente en votos y comentarios.
+-> Problema con ember en la administracion, se envia la lista de players vacia al cambiar como activo el juego.
+
+--- Domingo 20 de Julio ---
+-> 3 horas pegandome con un bug de emberjs, posteada pregunta en stackoverflow....
+-> Mejoras en la api con Carlos.
+-> Dado de alta la búsqueda de videos en youtube.
+-> Implementado módulo para buscar en la api de youtube.
+-> Si la canción no esta en base de datos se busca en youtube y se devuelven las canciones sin id.
+-> Nuevo método para buscar las canciones en youtube directamente en /songs/youtube.
+-> Configurar los servidores para que se arranquen con forever en node.
+-> Nuevo método para buscar las canciones en youtube directamente en /songs/youtube
+
+
+--- Lunes 21 de Julio ---
+-> Cambio de dominio a planum.music
+-> Métodos para buscar en freebase.
+-> Creados métodos de la api para buscar artistas y canciones en freebase.
+
+--- Martes 22 de Julio ---
+-> Corrección de errores en la adminstración de planum.
+-> Ahora se muestra el usuario en la página de administración.
+-> Completada administración. (mas o menos).
+-> Refresco del token de las aplicaciones en el cliente.
+-> Ahora los datos del jugador se devuelven con los datos de su perfil.
+-> Delete de la cola de usuarios implementado.
+-> Completados scripts del servidor con forever!
+
+--- Mirecoles 23 de Julio ---
+-> Mejoras en el script de procesado de juegos.
+-> Bugs con nginx para redirigir a delete ....
+-> Logout realizado, chapuza enorme en el servidor de autenticacion.
+    ->El esquema de rutas debería ser el siguiente:
+        -> GET /oauth/token - Devuelve si el token está activo.
+        -> POST/PUT /oauth/token - Crea un nuevo token.
+        -> DELETE /oauth/token - Borra el token.
+-> Refator de código de freebase, y preparado esquema para lastfm.
+
+--- Viernes 25 de Luio ---
+-> Integracion con lastfm completada.
+-> Registro de usuarios asico completado.
+
+--- Miercoles 6 de Agosto ---
+-> Preparacion de la replca set de mongoDB
+-> Se preparan los ficheros hosts para identificar las tres máquinas que forman parte del conjunto.
+-> Se añaden las máquinas a un security group comun para que puedan verse a través del puerto 27017.
+-> Se modifica el fichero de configuracion /etc/mongodb.conf para que la instancia de mongo apunte a la replicaset planum.
+-> rs.remove() rs.add() rs.status.
+-> Cuidado con la configuración de mongo, es importante comentar la linea de solo escuchar conexiones internas.
+-> El fichero hosts de las maquinas mongo debe tenerse a si mismo o montar un dns...

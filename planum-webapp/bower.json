@@ -1,0 +1,20 @@
+{
+  "name": "planum-client",
+  "description": "Planum client webapp",
+  "version": "0.0.0",
+  "license": "MIT",
+  "private": true,
+  "dependencies": {
+    "angular": "1.3.x",
+    "angular-route": "1.3.x",
+    "angular-loader": "1.3.x",
+    "angular-mocks": "~1.3.x",
+    "angular-resource": "~1.3.x",
+    "angular-sanitize": "1.3.x",
+    "bootstrap": "~3.2.0",
+    "angular-bootstrap": "~0.11.0",
+    "normalize-css": "~3.0.1",
+    "angular-moment": "~0.7.1",
+    "angular-busy": "~4.1.x"
+  }
+}
